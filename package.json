@@ -46,7 +46,6 @@
     "restify": "git+https://git@github.com/restify/node-restify.git#master",
     "restify-errors": "git+https://git@github.com/restify/errors.git#master",
     "toposort-class": "^0.3.1",
-    "vasync": "^1.6.3",
-    "verror": "^1.6.0"
+    "vasync": "^1.6.3"
   }
 }
