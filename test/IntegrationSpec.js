@@ -118,6 +118,8 @@ describe('Integration tests using the demo app', function() {
         });
 
         it('should return remote models', function(done) {
+            this.timeout(10000);
+
             client.get('/model3?userId=2', function(err, req, res, data) {
                 assert.ifError(err);
 
@@ -147,6 +149,8 @@ describe('Integration tests using the demo app', function() {
         });
 
         it('should fetch two async models in series', function(done) {
+            this.timeout(10000);
+
             client.get('/model5?text=helloworld', function(err, req, res, data) {
                 assert.ifError(err);
 

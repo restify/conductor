@@ -30,8 +30,9 @@
   },
   "devDependencies": {
     "chai": "^3.0.0",
+    "coveralls": "^2.11.2",
     "eslint": "^0.24.0",
-    "istanbul": "^0.3.16",
+    "istanbul": "^0.3.17",
     "jscs": "^1.13.1",
     "mocha": "^2.2.5",
     "sinon": "^1.15.3"
