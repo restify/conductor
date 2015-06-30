@@ -452,19 +452,27 @@ _(Coming soon)_
 
 ## Contributing
 
-Add unit tests for any new or changed functionality. Ensure that ESLint passes.
+Add unit tests for any new or changed functionality. Ensure that lint and style
+checks pass.
 
-To start contributing, install the git pre-push hooks:
+To start contributing, install the git preush hooks:
 
 ```sh
-npm run githook
+make githooks
 ```
 
 Before committing, run the prepush hook:
 
 ```sh
-npm run prepush
+make prepush
 ```
+
+If you have style errors, you can auto fix whitespace issues by running:
+
+```sh
+make codestyle-fix
+```
+
 
 ## License
 
