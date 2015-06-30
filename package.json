@@ -1,0 +1,51 @@
+{
+  "name": "restify-conductor",
+  "version": "1.0.0",
+  "main": "lib/index.js",
+  "description": "an abstraction framework for building composable endpoints",
+  "homepage": "https://github.com/restify/conductor",
+  "author": {
+    "email": "aliu@netflix.com",
+    "name": "Alex Liu"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/restify/conductor"
+  },
+  "license": "MIT",
+  "files": [
+    "lib"
+  ],
+  "keywords": [
+    "branching",
+    "conductor",
+    "express",
+    "react",
+    "render",
+    "restify",
+    "restify-conductor"
+  ],
+  "scripts": {
+    "test": "make test"
+  },
+  "devDependencies": {
+    "chai": "^3.0.0",
+    "eslint": "^0.24.0",
+    "istanbul": "^0.3.16",
+    "jscs": "^1.13.1",
+    "mocha": "^2.2.5",
+    "sinon": "^1.15.3"
+  },
+  "dependencies": {
+    "URIjs": "^1.15.1",
+    "assert-plus": "^0.1.5",
+    "bunyan": "^1.4.0",
+    "immutable": "^3.7.4",
+    "lodash": "^3.9.3",
+    "restify": "git+https://git@github.com/restify/node-restify.git#master",
+    "restify-errors": "git+https://git@github.com/restify/errors.git#master",
+    "toposort-class": "^0.3.1",
+    "vasync": "^1.6.3",
+    "verror": "^1.6.0"
+  }
+}
