@@ -2,7 +2,7 @@
 
 var rc     = require('../../../lib');
 var assert  = require('assert-plus');
-var restify = require('restify');
+var restifyErrors = require('restify-errors');
 
 
 // immutable properties are useful as a way to expose
@@ -39,7 +39,7 @@ function validateQuery(req, res, next) {
     var blacklistedQueries = rc.getProps(req, 'blacklistedQueries');
 
     if (blacklistedQueries.indexOf(query) !== -1) {
-        var err = new restify.errors.BadRequestError('query not allowed!');
+        var err = new restifyErrors.BadRequestError('query not allowed!');
         return next(err);
     }
     return next();

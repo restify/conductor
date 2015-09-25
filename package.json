@@ -43,8 +43,9 @@
     "bunyan": "^1.4.0",
     "immutable": "^3.7.4",
     "lodash": "^3.9.3",
-    "restify": "git+https://git@github.com/restify/node-restify.git#master",
-    "restify-errors": "git+https://git@github.com/restify/errors.git#master",
+    "restify": "^4.0.3",
+    "restify-clients": "^1.1.0",
+    "restify-errors": "^3.0.0",
     "toposort-class": "^0.3.1",
     "vasync": "^1.6.3"
   }
