@@ -4,7 +4,7 @@
 
 var chai       = require('chai');
 var _          = require('lodash');
-var restify    = require('restify');
+var restify    = require('restify-clients');
 var demoServer = require('../example/demo');
 
 var assert = chai.assert;
