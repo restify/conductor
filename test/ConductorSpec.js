@@ -350,6 +350,85 @@ describe('Restify Conductor', function() {
 
     describe('model tests', function() {
 
+        it('should build models', function() {
+            var conductorA = rc.createConductor({
+                name: 'A',
+                models: {
+                    a: [
+                        function browserInfoModel(innerReq, res) {
+                            return new Model({
+                                name: 'browserInfo',
+                                get: function(cb) {
+                                    cb(null, {
+                                        ua: innerReq.headers['user-agent']
+                                    });
+                                },
+                                isValid: function(data) {
+                                    return typeof data === 'string';
+                                }
+                            });
+                        }
+                    ]
+                }
+            });
+            var conductorB = rc.createConductor({
+                name: 'B',
+                deps: [ conductorA ],
+                models: {
+                    a: [
+                        function fooModel(innerReq, res) {
+                            return new Model({
+                                name: 'foo',
+                                get: function(cb) {
+                                    cb(null, {
+                                        ua: innerReq.query.foo
+                                    });
+                                }
+                            });
+                        }
+                    ],
+                    b: [
+                        function timestampModel(innerReq, res) {
+                            return new Model({
+                                name: 'timestamp',
+                                get: function(cb) {
+                                    cb(null, Date.now());
+                                }
+                            });
+                        }
+                    ]
+                },
+                handlers: {
+                    10: [rc.handlers.buildModels('a')]
+                }
+            });
+            var req = {
+                query: {
+                    foo: 'bar'
+                },
+                headers: {
+                    'user-agent': 'linx'
+                },
+                _restifyConductor: {
+                    conductor: conductorB,
+                    models: {},
+                    clients: {},
+                    reqTimerPrefix: ''
+                },
+                startHandlerTimer: _.noop,
+                endHandlerTimer: _.noop
+            };
+
+            _.forEach(conductorB.getHandlers(10), function(handler) {
+                handler(req, {}, _.noop);
+            });
+
+            var models = rc.getModels(req);
+            assert(models.browserInfo.isValid);
+            assert(models.foo.data.ua, 'bar');
+            assert.equal(false, models.hasOwnProperty('timestamp'));
+        });
+
         it('should return models', function() {
             var conductorA = rc.createConductor({
                 name: 'A',

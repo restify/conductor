@@ -53,12 +53,12 @@ githooks:
 
 .PHONY: lint
 lint: node_modules $(ESLINT) $(SRCS)
-	$(ESLINT) $(SRCS)
+	@$(ESLINT) $(SRCS)
 
 
 .PHONY: codestyle
 codestyle: node_modules $(JSCS) $(SRCS)
-	$(JSCS) $(SRCS)
+	@$(JSCS) $(SRCS)
 
 
 .PHONY: codestyle-fix
@@ -72,12 +72,12 @@ prepush: node_modules lint codestyle test
 
 .PHONY: test
 test: node_modules $(MOCHA) $(SRCS)
-	$(MOCHA) -R spec
+	@$(MOCHA) -R spec
 
 
 .PHONY: coverage
 coverage: node_modules $(ISTANBUL) $(SRCS)
-	$(ISTANBUL) cover $(_MOCHA) --report lcovonly -- -R spec
+	@$(ISTANBUL) cover $(_MOCHA) --report lcovonly -- -R spec
 
 
 .PHONY: report-coverage
