@@ -47,6 +47,31 @@ var shardJsonConductor = rc.createConductor({
     }
 });
 
+var nextLevelShardJsonConductor = rc.createConductor({
+    name: 'nextLevelShardJsonConductor',
+    handlers: {
+        15: [
+            function addName(req, res, next) {
+                req.name = 'json';
+                return next();
+            }
+        ],
+        20: [
+            function render(req, res, next) {
+                res.send(200, {
+                    name: req.name
+                });
+                return next();
+            }
+        ]
+    }
+});
+
+var shardMap = {
+    'text': shardTextConductor,
+    'json': shardJsonConductor,
+    'nextLevelJson': nextLevelShardJsonConductor
+};
 
 module.exports.shardText = shardTextConductor;
 module.exports.shardJson = shardJsonConductor;
@@ -60,15 +85,20 @@ module.exports.shard = rc.createConductor({
             },
             function shard(req, res, next) {
                 var type = req.query.type;
-                var finalConductor = (type === 'json') ?
-                                    shardJsonConductor :
-                                    shardTextConductor;
+
+                var finalConductor = shardMap[type];
 
                 // here, based on some conditional, we can
                 // choose to "shard" into another conductor.
                 // the handler chain will pick up where
                 // it left off numerically. in this case, 10.
                 rc.shardConductor(req, finalConductor);
+                return next();
+            }
+        ],
+        20: [
+            function nothing(req, res, next) {
+                // nothing going on here
                 return next();
             }
         ]
