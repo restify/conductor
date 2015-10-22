@@ -3,13 +3,68 @@
 
 'use strict';
 
-var _      = require('lodash');
-var assert = require('assert');
-var rc    = require('../lib');
-var Model  = require('../lib/models/Model');
+var _       = require('lodash');
+var assert  = require('assert');
+var rc      = require('../lib');
+var Model   = require('../lib/models/Model');
+var restify = require('restify');
 
 
 describe('Restify Conductor', function() {
+
+    describe('route installation', function() {
+        var server;
+        var conductor;
+
+        beforeEach(function() {
+            server = restify.createServer({
+                name: 'testing'
+            });
+            conductor = rc.createConductor({
+                name: 'test'
+            });
+        });
+
+        it('should add get route', function() {
+            rc.get('/foo', conductor, server);
+            assert.equal(_.keys(server.routes).length, 1);
+        });
+
+        it('should add all route types', function() {
+            var routeVerbs = [
+                'del',
+                'get',
+                'head',
+                'opts',
+                'post',
+                'put',
+                'patch'
+            ];
+            _.map(routeVerbs, function(verb) {
+                rc[verb]('/bar', conductor, server);
+            });
+
+            assert.equal(_.keys(server.routes).length, routeVerbs.length);
+        });
+
+        it('should accept an object for the route', function() {
+            rc.get({path: '/path'}, conductor, server);
+            assert.equal(_.keys(server.routes).length, 1);
+        });
+
+        it('should throw when no object or string present', function() {
+            assert.throws(function() {
+                rc.get(null, conductor, server);
+            });
+            assert.throws(function() {
+                rc.get(false, conductor, server);
+            });
+            assert.throws(function() {
+                rc.get(1, conductor, server);
+            });
+            assert.equal(_.keys(server.routes).length, 0);
+        });
+    });
 
     describe('constructor tests', function() {
 

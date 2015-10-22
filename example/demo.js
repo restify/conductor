@@ -95,5 +95,10 @@ rc.get('/shard', shardConductor.shard, demoServer);
 rc.get('/shardText', shardConductor.shardText, demoServer);
 rc.get('/shardJson', shardConductor.shardJson, demoServer);
 
+// Object examples
+rc.get({path: '/object'}, simpleConductor, demoServer);
+rc.get({path: '/object1', flags: 'i'}, simpleConductor2, demoServer);
+rc.get({path: '/Object2'}, simpleConductor2, demoServer);
+rc.get({path: '/OBJECT3'}, simpleConductor2, demoServer);
 
 module.exports = demoServer;

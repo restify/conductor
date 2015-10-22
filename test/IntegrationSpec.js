@@ -275,4 +275,39 @@ describe('Integration tests using the demo app', function() {
         });
     });
 
+    describe('object', function() {
+        it('should return hello world', function(done) {
+            stringClient.get('/object', function(err, req, res, data) {
+                assert.ifError(err);
+                assert.equal(data, 'hello world!');
+                done();
+            });
+        });
+
+        it('should return hello world and conductor name', function(done) {
+            stringClient.get('/Object1', function(err, req, res, data) {
+                assert.ifError(err);
+                assert.equal(data, 'hello world: simpleConductor2!');
+                done();
+            });
+        });
+
+        it('should return hello world, conductor name', function(done) {
+            stringClient.get('/Object2', function(err, req, res, data) {
+                assert.ifError(err);
+                assert.equal(data, 'hello world: simpleConductor2!');
+                done();
+            });
+        });
+
+        it('should return a 404', function(done) {
+            stringClient.get('/object3', function(err, req, res, data) {
+                assert.ok(err);
+                assert.equal(res.statusCode, 404);
+                assert.equal(data, '/object3 does not exist');
+                done();
+            });
+        });
+
+    });
 });
