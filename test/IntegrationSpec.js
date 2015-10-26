@@ -9,10 +9,10 @@ var demoServer = require('../example/demo');
 
 var assert = chai.assert;
 var client = restify.createJsonClient({
-    url: 'http://localhost:3000'
+    url: 'http://localhost:3003'
 });
 var stringClient = restify.createStringClient({
-    url: 'http://localhost:3000'
+    url: 'http://localhost:3003'
 });
 
 
@@ -21,7 +21,7 @@ var stringClient = restify.createStringClient({
 describe('Integration tests using the demo app', function() {
 
     before(function(done) {
-        demoServer.listen(3000, done);
+        demoServer.listen(3003, done);
     });
 
     describe('Simple handler chains', function() {
@@ -270,6 +270,36 @@ describe('Integration tests using the demo app', function() {
                 assert.ifError(err);
                 assert.isObject(data);
                 assert.equal(data.name, 'preshard');
+                done();
+            });
+        });
+
+        it('should shard to next level into json response', function(done) {
+            client.get('/shard?type=nextLevelJson',
+                       function(err, req, res, data) {
+                assert.ifError(err);
+                assert.isObject(data);
+                assert.equal(data.name, 'json');
+                done();
+            });
+        });
+
+        it('should shard to next level into json response', function(done) {
+            client.get('/shard?type=nextLevelNotSameLevel',
+                       function(err, req, res, data) {
+                assert.ifError(err);
+                assert.isObject(data);
+                assert.equal(data.name, 'json');
+                done();
+            });
+        });
+
+        it('should error as there are no handlers', function(done) {
+            client.get('/shard?type=noHandlers',
+                       function(err, req, res, data) {
+                assert.ok(err);
+                assert.isObject(data);
+                assert.equal(res.statusCode, 500);
                 done();
             });
         });

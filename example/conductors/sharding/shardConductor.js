@@ -47,22 +47,75 @@ var shardJsonConductor = rc.createConductor({
     }
 });
 
+var nextLevelShardJsonConductor = rc.createConductor({
+    name: 'nextLevelShardJsonConductor',
+    handlers: {
+        15: [
+            function addName(req, res, next) {
+                req.name = 'json';
+                return next();
+            }
+        ],
+        20: [
+            function render(req, res, next) {
+                res.send(200, {
+                    name: req.name
+                });
+                return next();
+            }
+        ]
+    }
+});
+
+var nextLevelNotSameLevel = rc.createConductor({
+    name: 'nextLevelShardJsonConductor',
+    handlers: {
+        15: [
+            function addName(req, res, next) {
+                req.name = 'json';
+                return next();
+            }
+        ],
+        21: [
+            function render(req, res, next) {
+                res.send(200, {
+                    name: req.name
+                });
+                return next();
+            }
+        ]
+    }
+});
+
+var noHandlers = rc.createConductor({
+    name: 'noHandlers',
+    handlers: {}
+});
+
+var shardMap = {
+    'text': shardTextConductor,
+    'json': shardJsonConductor,
+    'nextLevelJson': nextLevelShardJsonConductor,
+    'nextLevelNotSameLevel': nextLevelNotSameLevel,
+    'noHandlers': noHandlers
+};
 
 module.exports.shardText = shardTextConductor;
 module.exports.shardJson = shardJsonConductor;
 module.exports.shard = rc.createConductor({
     name: 'shardConductor',
     handlers: {
-        10: [
+        9: [
             function name(req, res, next) {
                 req.name = 'preshard';
                 return next();
-            },
+            }
+        ],
+        10: [
             function shard(req, res, next) {
                 var type = req.query.type;
-                var finalConductor = (type === 'json') ?
-                                    shardJsonConductor :
-                                    shardTextConductor;
+
+                var finalConductor = shardMap[type];
 
                 // here, based on some conditional, we can
                 // choose to "shard" into another conductor.
@@ -71,6 +124,12 @@ module.exports.shard = rc.createConductor({
                 rc.shardConductor(req, finalConductor);
                 return next();
             }
+        ],
+        20: [
+            function nothingHere(req, res, next) {
+                // Not calling next!
+            }
         ]
     }
+
 });
