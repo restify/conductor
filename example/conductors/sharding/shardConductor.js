@@ -87,11 +87,17 @@ var nextLevelNotSameLevel = rc.createConductor({
     }
 });
 
+var noHandlers = rc.createConductor({
+    name: 'noHandlers',
+    handlers: {}
+});
+
 var shardMap = {
     'text': shardTextConductor,
     'json': shardJsonConductor,
     'nextLevelJson': nextLevelShardJsonConductor,
-    'nextLevelNotSameLevel': nextLevelNotSameLevel
+    'nextLevelNotSameLevel': nextLevelNotSameLevel,
+    'noHandlers': noHandlers
 };
 
 module.exports.shardText = shardTextConductor;

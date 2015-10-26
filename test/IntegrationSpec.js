@@ -293,6 +293,16 @@ describe('Integration tests using the demo app', function() {
                 done();
             });
         });
+
+        it('should error as there are no handlers', function(done) {
+            client.get('/shard?type=noHandlers',
+                       function(err, req, res, data) {
+                assert.ok(err);
+                assert.isObject(data);
+                assert.equal(res.statusCode, 500);
+                done();
+            });
+        });
     });
 
     describe('object', function() {
