@@ -9,10 +9,10 @@ var demoServer = require('../example/demo');
 
 var assert = chai.assert;
 var client = restify.createJsonClient({
-    url: 'http://localhost:3000'
+    url: 'http://localhost:3003'
 });
 var stringClient = restify.createStringClient({
-    url: 'http://localhost:3000'
+    url: 'http://localhost:3003'
 });
 
 
@@ -21,7 +21,7 @@ var stringClient = restify.createStringClient({
 describe('Integration tests using the demo app', function() {
 
     before(function(done) {
-        demoServer.listen(3000, done);
+        demoServer.listen(3003, done);
     });
 
     describe('Simple handler chains', function() {
