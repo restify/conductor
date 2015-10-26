@@ -283,6 +283,16 @@ describe('Integration tests using the demo app', function() {
                 done();
             });
         });
+
+        it('should shard to next level into json response', function(done) {
+            client.get('/shard?type=nextLevelNotSameLevel',
+                       function(err, req, res, data) {
+                assert.ifError(err);
+                assert.isObject(data);
+                assert.equal(data.name, 'json');
+                done();
+            });
+        });
     });
 
     describe('object', function() {

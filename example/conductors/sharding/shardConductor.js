@@ -67,10 +67,31 @@ var nextLevelShardJsonConductor = rc.createConductor({
     }
 });
 
+var nextLevelNotSameLevel = rc.createConductor({
+    name: 'nextLevelShardJsonConductor',
+    handlers: {
+        15: [
+            function addName(req, res, next) {
+                req.name = 'json';
+                return next();
+            }
+        ],
+        21: [
+            function render(req, res, next) {
+                res.send(200, {
+                    name: req.name
+                });
+                return next();
+            }
+        ]
+    }
+});
+
 var shardMap = {
     'text': shardTextConductor,
     'json': shardJsonConductor,
-    'nextLevelJson': nextLevelShardJsonConductor
+    'nextLevelJson': nextLevelShardJsonConductor,
+    'nextLevelNotSameLevel': nextLevelNotSameLevel
 };
 
 module.exports.shardText = shardTextConductor;
@@ -78,11 +99,13 @@ module.exports.shardJson = shardJsonConductor;
 module.exports.shard = rc.createConductor({
     name: 'shardConductor',
     handlers: {
-        10: [
+        9: [
             function name(req, res, next) {
                 req.name = 'preshard';
                 return next();
-            },
+            }
+        ],
+        10: [
             function shard(req, res, next) {
                 var type = req.query.type;
 
@@ -97,10 +120,10 @@ module.exports.shard = rc.createConductor({
             }
         ],
         20: [
-            function nothing(req, res, next) {
-                // nothing going on here
-                return next();
+            function nothingHere(req, res, next) {
+                // Not calling next!
             }
         ]
     }
+
 });
