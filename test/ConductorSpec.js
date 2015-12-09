@@ -401,6 +401,16 @@ describe('Restify Conductor', function() {
             assert.deepEqual(conductorA.getProps('letters'), { a: 1 });
             assert.deepEqual(conductorB.getProps('letters'), { a: 1, b: 2 });
         });
+
+        it('gh-8 should allow props to be an object', function() {
+            var conductorA = rc.createConductor({
+                name: 'A',
+                props: {
+                    foo: 'bar'
+                }
+            });
+            assert.equal(conductorA.getProps('foo'), 'bar');
+        });
     });
 
     describe('model tests', function() {
