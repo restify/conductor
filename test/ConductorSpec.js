@@ -85,6 +85,17 @@ describe('Restify Conductor', function() {
         });
 
 
+        it('should throw if a handler isn\'t a function in constructor',
+           function() {
+            assert.throws(function() {
+                rc.createConductor({
+                    name: 'A',
+                    handlers: {5:[ [_.noop] ] }
+                });
+            }, 'throw an error with nested handlers');
+        });
+
+
         it('should create internal props using passed in config', function() {
             var conductorA = rc.createConductor({
                     name: 'A',
