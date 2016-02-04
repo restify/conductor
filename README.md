@@ -437,7 +437,7 @@ Note that in this example we sharded the conductor at index 20. That means the
 request will continue to flow through the handler stacks defined at
 homeConductor and loginConductor starting from the next index _higher_ than 20.
 In other words, __if homeConductor or loginConductor have handlers defined at
-any indicies lower than 20, they will NOT be run__. They will only be run in
+any indicies 20 and lower, they will NOT be run__. They will only be run in
 the non sharded scenario, where the user directly hits /home or /login.
 
 One of the main advantages of sharding is that there is no redirect. You can
