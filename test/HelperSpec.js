@@ -73,4 +73,25 @@ describe('Helpers', function() {
         var sorted = h.sortNumericalKeys(obj);
         assert.deepEqual(sorted, [1, 5, 15, 20]);
     });
+
+    it('should sort keys of arrays of object', function() {
+        var obj = {
+            10: [],
+            20: [],
+            30: [],
+            40: [],
+            50: [],
+            51: [],
+            53: [],
+            60: [],
+            65: [],
+            70: [],
+            100: []
+        };
+        var sorted = h.sortNumericalKeys(obj);
+        assert.deepEqual(
+            sorted,
+            [10, 20, 30, 40, 50, 51, 53, 60, 65, 70, 100]
+        );
+    });
 });

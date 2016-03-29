@@ -372,11 +372,14 @@ describe('Restify Conductor', function() {
                             b: 2
                         },
                         numbers: [4, 5, 6]
-                    }, function mergeCustomizer(a, b) {
+                    },
+                    /* eslint-disable consistent-return */
+                    function mergeCustomizer(a, b) {
                         if (_.isArray(a)) {
                             return a.concat(b);
                         }
                     });
+                    /* eslint-enable consistent-return */
                 }
             });
 
