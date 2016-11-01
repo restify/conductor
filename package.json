@@ -42,7 +42,7 @@
     "assert-plus": "^0.1.5",
     "bunyan": "^1.4.0",
     "immutable": "^3.7.4",
-    "lodash": "^3.9.3",
+    "lodash": "^4.16.6",
     "restify": "^4.0.3",
     "restify-clients": "^1.1.0",
     "restify-errors": "^3.0.0",
