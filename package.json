@@ -40,7 +40,7 @@
   "dependencies": {
     "urijs": "^1.17.0",
     "assert-plus": "^0.1.5",
-    "bunyan": "^1.4.0",
+    "bunyan": "^1.8.6",
     "immutable": "^3.7.4",
     "lodash": "^3.9.3",
     "restify": "^4.0.3",
