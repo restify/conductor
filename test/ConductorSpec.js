@@ -27,7 +27,7 @@ describe('Restify Conductor', function() {
 
         it('should add get route', function() {
             rc.get('/foo', conductor, server);
-            assert.equal(_.keys(server.routes).length, 1);
+            assert.equal(_.keys(server.router._registry._routes).length, 1);
         });
 
         it('should add all route types', function() {
@@ -44,12 +44,12 @@ describe('Restify Conductor', function() {
                 rc[verb]('/bar', conductor, server);
             });
 
-            assert.equal(_.keys(server.routes).length, routeVerbs.length);
+            assert.equal(_.keys(server.router._registry._routes).length, routeVerbs.length);
         });
 
         it('should accept an object for the route', function() {
             rc.get({path: '/path'}, conductor, server);
-            assert.equal(_.keys(server.routes).length, 1);
+            assert.equal(_.keys(server.router._registry._routes).length, 1);
         });
 
         it('should throw when no object or string present', function() {
@@ -62,7 +62,7 @@ describe('Restify Conductor', function() {
             assert.throws(function() {
                 rc.get(1, conductor, server);
             });
-            assert.equal(_.keys(server.routes).length, 0);
+            assert.equal(_.keys(server.router._registry._routes).length, 0);
         });
     });
 

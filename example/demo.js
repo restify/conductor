@@ -48,8 +48,9 @@ var demoServer = restify.createServer({
 });
 
 // set up auditing, error handling
-demoServer.on('after', restify.auditLogger({
-    log: logger.child({ component: 'restify-audit' })
+demoServer.on('after', restify.plugins.auditLogger({
+    log: logger.child({ component: 'restify-audit' }),
+    event: 'after'
 }));
 
 // handle uncaught exceptions
@@ -62,9 +63,8 @@ demoServer.on('uncaughtException', function(req, res, route, err) {
 });
 
 // set up server
-demoServer.pre(restify.sanitizePath());
-demoServer.use(restify.queryParser());
-demoServer.use(restify.requestLogger());
+demoServer.use(restify.plugins.queryParser());
+demoServer.use(restify.plugins.requestLogger());
 
 // simple examples
 rc.get('/simple', simpleConductor, demoServer);
@@ -97,7 +97,7 @@ rc.get('/shardJson', shardConductor.shardJson, demoServer);
 
 // Object examples
 rc.get({path: '/object'}, simpleConductor, demoServer);
-rc.get({path: '/object1', flags: 'i'}, simpleConductor2, demoServer);
+rc.get({path: '/Object1'}, simpleConductor2, demoServer);
 rc.get({path: '/Object2'}, simpleConductor2, demoServer);
 rc.get({path: '/OBJECT3'}, simpleConductor2, demoServer);
 

@@ -71,9 +71,8 @@ describe('Integration tests using the demo app', function() {
         it('should return 400 due to invalid query (props1)', function(done) {
             client.get('/props?search=foo', function(err, req, res, data) {
                 assert.ok(err);
-                assert.equal(res.statusCode, 400);
-                assert.equal(data.code, 'BadRequestError');
-                assert.equal(data.message, 'query not allowed!');
+                assert.equal(data.body.code, 'BadRequestError');
+                assert.equal(data.body.message, 'query not allowed!');
                 done();
             });
         });
@@ -91,8 +90,8 @@ describe('Integration tests using the demo app', function() {
             client.get('/props2?search=baz', function(err, req, res, data) {
                 assert.ok(err);
                 assert.equal(res.statusCode, 400);
-                assert.equal(data.code, 'BadRequestError');
-                assert.equal(data.message, 'query not allowed!');
+                assert.equal(data.body.code, 'BadRequestError');
+                assert.equal(data.body.message, 'query not allowed!');
                 done();
             });
         });
@@ -186,8 +185,8 @@ describe('Integration tests using the demo app', function() {
             client.get('/inherit?search=foo', function(err, req, res, data) {
                 assert.ok(err);
                 assert.equal(res.statusCode, 400);
-                assert.equal(data.code, 'BadRequestError');
-                assert.equal(data.message, 'query not allowed!');
+                assert.equal(data.body.code, 'BadRequestError');
+                assert.equal(data.body.message, 'query not allowed!');
                 done();
             });
         });
@@ -204,8 +203,8 @@ describe('Integration tests using the demo app', function() {
             client.get('/inherit2?search=override', function(err, req, res, data) {
                 assert.ok(err);
                 assert.equal(res.statusCode, 400);
-                assert.equal(data.code, 'BadRequestError');
-                assert.equal(data.message, 'query not allowed!');
+                assert.equal(data.body.code, 'BadRequestError');
+                assert.equal(data.body.message, 'query not allowed!');
                 done();
             });
         });
@@ -214,8 +213,8 @@ describe('Integration tests using the demo app', function() {
             client.get('/inherit2?search=override', function(err, req, res, data) {
                 assert.ok(err);
                 assert.equal(res.statusCode, 400);
-                assert.equal(data.code, 'BadRequestError');
-                assert.equal(data.message, 'query not allowed!');
+                assert.equal(data.body.code, 'BadRequestError');
+                assert.equal(data.body.message, 'query not allowed!');
                 done();
             });
         });
@@ -334,7 +333,7 @@ describe('Integration tests using the demo app', function() {
             stringClient.get('/object3', function(err, req, res, data) {
                 assert.ok(err);
                 assert.equal(res.statusCode, 404);
-                assert.equal(data, '/object3 does not exist');
+                assert.equal(JSON.parse(data).message, '/object3 does not exist');
                 done();
             });
         });

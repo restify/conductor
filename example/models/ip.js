@@ -14,6 +14,7 @@ var rc = require('../../lib/');
 module.exports = rc.createModel({
     name: 'ip',
     host: 'jsonip.com',
+    secure: true,
     isValid: function(data) {
         // validate the payload coming back.
         return (data.hasOwnProperty('ip') &&
