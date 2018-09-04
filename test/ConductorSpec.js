@@ -25,44 +25,77 @@ describe('Restify Conductor', function() {
             });
         });
 
-        it('should add get route', function() {
-            rc.get('/foo', conductor, server);
-            assert.equal(_.keys(server.routes).length, 1);
+        describe('with rc verbs', function () {
+
+            it('should add get route', function() {
+                rc.get('/foo', conductor, server);
+                assert.equal(_.keys(server.routes).length, 1);
+            });
+
+            it('should add all route types', function() {
+                var routeVerbs = [
+                    'del',
+                    'get',
+                    'head',
+                    'opts',
+                    'post',
+                    'put',
+                    'patch'
+                ];
+                _.map(routeVerbs, function(verb) {
+                    rc[verb]('/bar', conductor, server);
+                });
+
+                assert.equal(_.keys(server.routes).length, routeVerbs.length);
+            });
+
+            it('should accept an object for the route', function() {
+                rc.get({path: '/path'}, conductor, server);
+                assert.equal(_.keys(server.routes).length, 1);
+            });
+
+            it('should throw when no object or string present', function() {
+                assert.throws(function() {
+                    rc.get(null, conductor, server);
+                });
+                assert.throws(function() {
+                    rc.get(false, conductor, server);
+                });
+                assert.throws(function() {
+                    rc.get(1, conductor, server);
+                });
+                assert.equal(_.keys(server.routes).length, 0);
+            });
         });
 
-        it('should add all route types', function() {
-            var routeVerbs = [
-                'del',
-                'get',
-                'head',
-                'opts',
-                'post',
-                'put',
-                'patch'
-            ];
-            _.map(routeVerbs, function(verb) {
-                rc[verb]('/bar', conductor, server);
+        describe('with createConductorHandler', function() {
+
+            it('should add get route', function() {
+                server.get('/foo', rc.createConductorHandlers(conductor));
+                assert.equal(_.keys(server.routes).length, 1);
             });
 
-            assert.equal(_.keys(server.routes).length, routeVerbs.length);
-        });
+            it('should add all route types', function() {
+                var routeVerbs = [
+                    'del',
+                    'get',
+                    'head',
+                    'opts',
+                    'post',
+                    'put',
+                    'patch'
+                ];
+                _.map(routeVerbs, function(verb) {
+                    server[verb]('/bar', rc.createConductorHandlers(conductor));
+                });
 
-        it('should accept an object for the route', function() {
-            rc.get({path: '/path'}, conductor, server);
-            assert.equal(_.keys(server.routes).length, 1);
-        });
+                assert.equal(_.keys(server.routes).length, routeVerbs.length);
+            });
 
-        it('should throw when no object or string present', function() {
-            assert.throws(function() {
-                rc.get(null, conductor, server);
+            it('should accept an object for the route', function() {
+                server.get({path: '/path'}, rc.createConductorHandlers(conductor));
+                assert.equal(_.keys(server.routes).length, 1);
             });
-            assert.throws(function() {
-                rc.get(false, conductor, server);
-            });
-            assert.throws(function() {
-                rc.get(1, conductor, server);
-            });
-            assert.equal(_.keys(server.routes).length, 0);
         });
     });
 
