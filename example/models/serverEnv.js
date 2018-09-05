@@ -2,7 +2,6 @@
 
 var rc = require('../../lib/');
 
-
 // models are actually functions that return a new model.
 // this allows us to create new models easily for every
 // new incoming request.

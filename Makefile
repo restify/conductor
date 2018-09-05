@@ -1,98 +1,139 @@
 #
 # Directories
 #
-ROOT           := $(shell pwd)
-NODE_MODULES   := $(ROOT)/node_modules
-NODE_BIN       := $(NODE_MODULES)/.bin
+ROOT_SLASH	:= $(dir $(realpath $(firstword $(MAKEFILE_LIST))))
+ROOT		:= $(patsubst %/,%,$(ROOT_SLASH))
+BENCHMARK 	:= $(ROOT)/benchmark
+LIB		:= $(ROOT)/lib
+TEST		:= $(ROOT)/test
+TOOLS		:= $(ROOT)/tools
+GITHOOKS_SRC	:= $(TOOLS)/githooks
+GITHOOKS_DEST	:= $(ROOT)/.git/hooks
+
+
+#
+# Generated Files & Directories
+#
+NODE_MODULES	:= $(ROOT)/node_modules
+NODE_BIN	:= $(NODE_MODULES)/.bin
+COVERAGE	:= $(ROOT)/.nyc_output
+COVERAGE_RES	:= $(ROOT)/coverage
+YARN_LOCK	:= $(ROOT)/yarn.lock
+PACKAGE_LOCK	:= $(ROOT)/package-lock.json
 
 
 #
 # Tools and binaries
 #
+DOCUMENT	:= $(NODE_BIN)/documentation
+NPM			:= npm
+NODE		:= node
+YARN		:= yarn
 ESLINT		:= $(NODE_BIN)/eslint
-JSCS		:= $(NODE_BIN)/jscs
-MOCHA       := $(NODE_BIN)/mocha
-_MOCHA      := $(NODE_BIN)/_mocha
-ISTANBUL    := $(NODE_BIN)/istanbul
-COVERALLS   := $(NODE_BIN)/coveralls
-NPM		    := npm
+MOCHA		:= $(NODE_BIN)/mocha
+NYC		:= $(NODE_BIN)/nyc
+PRETTIER	:= $(NODE_BIN)/prettier
+UNLEASH		:= $(NODE_BIN)/unleash
+CONVENTIONAL_RECOMMENDED_BUMP := $(NODE_BIN)/conventional-recommended-bump
 
 
 #
-# Files
+# Files and globs
 #
-GIT_HOOK_SRC   = '../../tools/githooks/pre-push'
-GIT_HOOK_DEST  = '.git/hooks/pre-push'
-LIB_FILES  	   := $(ROOT)/lib
-TEST_FILES     := $(ROOT)/test
-COVERAGE_FILES := $(ROOT)/coverage
-LCOV           := $(ROOT)/coverage/lcov.info
-
-# src is everything except node_modules and the example dir
-SRCS           := $(shell find $(LIB_FILES) $(TEST_FILES) -name '*.js' -type f \
-				-not \( -path "./node_modules/*" -prune \) \
-				-not \( -path "./example/*" -prune \))
+PACKAGE_JSON	:= $(ROOT)/package.json
+API_MD		:= $(ROOT)/api.md
+GITHOOKS	:= $(wildcard $(GITHOOKS_SRC)/*)
+ALL_FILES	:= $(shell find $(ROOT) \
+			-not \( -path $(NODE_MODULES) -prune \) \
+			-not \( -path $(COVERAGE) -prune \) \
+			-not \( -path $(COVERAGE_RES) -prune \) \
+			-name '*.js' -type f)
+TEST_FILES	:= $(shell find $(TEST) -name '*.js' -type f)
 
 #
 # Targets
 #
 
-.PHONY: all
-all: clean node_modules lint codestyle test
-
-
-node_modules: package.json
-	$(NPM) install
+$(NODE_MODULES): $(PACKAGE_JSON) ## Install node_modules
+	@$(YARN)
 	@touch $(NODE_MODULES)
 
 
+.PHONY: docs
+docs: $(DOCUMENT) $(ALL_FILES)
+	@$(DOCUMENT) build $(LIB) -f md -o $(API_MD)
+
+
+.PHONY: help
+help:
+	@perl -nle'print $& if m{^[a-zA-Z_-]+:.*?## .*$$}' $(MAKEFILE_LIST) \
+		| sort | awk 'BEGIN {FS = ":.*?## "}; \
+		{printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+
+
 .PHONY: githooks
-githooks:
-	@ln -s $(GIT_HOOK_SRC) $(GIT_HOOK_DEST)
+githooks: $(GITHOOKS) ## Symlink githooks
+	@$(foreach hook,\
+		$(GITHOOKS),\
+		ln -sf $(hook) $(GITHOOKS_DEST)/$(hook##*/);\
+	)
+
+
+.PHONY: benchmark
+benchmark: $(BENCHMARK)
+	@$(NODE) $(BENCHMARK)
+
+
+.PHONY: release-dry
+release-dry: $(NODE_MODULES)
+	$(UNLEASH) -d --type=$(shell $(CONVENTIONAL_RECOMMENDED_BUMP) -p angular)
+
+
+.PHONY: release
+release: $(NODE_MODULES) ## Versions, tags, and updates changelog based on commit messages
+	$(UNLEASH) --type=$(shell $(CONVENTIONAL_RECOMMENDED_BUMP) -p angular)
 
 
 .PHONY: lint
-lint: node_modules $(ESLINT) $(SRCS)
-	@$(ESLINT) $(SRCS)
+lint: $(NODE_MODULES) $(ESLINT) $(ALL_FILES) ## Run lint checker (eslint).
+	@$(ESLINT) $(ALL_FILES)
 
 
-.PHONY: codestyle
-codestyle: node_modules $(JSCS) $(SRCS)
-	@$(JSCS) $(SRCS)
+.PHONY: lint-fix
+lint-fix: $(NODE_MODULES) $(PRETTIER) $(ALL_FILES) ## Reprint code (prettier, eslint).
+	@$(PRETTIER) --write $(ALL_FILES)
+	@$(ESLINT) --fix $(ALL_FILES)
 
 
-.PHONY: codestyle-fix
-codestyle-fix: node_modules $(JSCS) $(SRCS)
-	$(JSCS) $(SRCS) --fix
+.PHONY: security
+security: $(NODE_MODULES) ## Check for dependency vulnerabilities.
+	@$(NPM) install --package-lock-only
+	@$(NPM) audit
+	@rm $(PACKAGE_LOCK)
 
 
 .PHONY: prepush
-prepush: node_modules lint codestyle test
+prepush: $(NODE_MODULES) lint docs coverage ## Git pre-push hook task. Run before committing and pushing.
 
 
 .PHONY: test
-test: node_modules $(MOCHA) $(SRCS)
-	@$(MOCHA) -R spec
+test: $(NODE_MODULES) $(MOCHA) ## Run unit tests.
+	@$(MOCHA) -R spec --full-trace --no-exit --no-timeouts $(TEST_FILES)
 
 
 .PHONY: coverage
-coverage: node_modules $(ISTANBUL) $(SRCS)
-	@$(ISTANBUL) cover $(_MOCHA) --report lcovonly -- -R spec
+coverage: $(NODE_MODULES) $(NYC) ## Run unit tests with coverage reporting. Generates reports into /coverage.
+	@$(NYC) --reporter=html --reporter=text make test
 
 
 .PHONY: report-coverage
-report-coverage: coverage
-	@cat $(LCOV) | $(COVERALLS)
-
-
-.PHONY: clean-coverage
-clean-coverage:
-	@rm -rf $(COVERAGE_FILES)
+report-coverage: $(NODE_MODULES) $(NYC) ## Report unit test coverage to coveralls
+	@$(NYC) report --reporter=text-lcov make test | $(COVERALLS)
 
 
 .PHONY: clean
-clean: clean-coverage
-	@rm -rf $(NODE_MODULES)
+clean: ## Cleans unit test coverage files and node_modules.
+	@rm -rf $(NODE_MODULES) $(COVERAGE) $(COVERAGE_RES) $(YARN_LOCK) $(PACKAGE_LOCK)
 
 
 #

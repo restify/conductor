@@ -1,9 +1,8 @@
 'use strict';
 
-var rc     = require('../../../lib');
-var assert  = require('assert-plus');
+var rc = require('../../../lib');
+var assert = require('assert-plus');
 var restifyErrors = require('restify-errors');
-
 
 // immutable properties are useful as a way to expose
 // a set of data that differs from conductor to conductor.
@@ -15,11 +14,8 @@ var restifyErrors = require('restify-errors');
 // props can then be accessed in your handlers via
 // methods provided to you.
 
-
 // in this way, we can share handlers between conductors,
 // but work against a known set of props.
-
-
 
 function validateQuery(req, res, next) {
     // in this example, we take a query param and validate it
@@ -59,17 +55,11 @@ module.exports.propsConductor = rc.createConductor({
         return {
             foo: 'bar',
             baz: 'qux',
-            blacklistedQueries: [ 'foo', 'bar' ]
+            blacklistedQueries: ['foo', 'bar']
         };
     },
-    handlers: [
-        [
-            validateQuery,
-            render
-        ]
-    ]
+    handlers: [[validateQuery, render]]
 });
-
 
 module.exports.propsConductor2 = rc.createConductor({
     name: 'propsConductor2',
@@ -77,13 +67,8 @@ module.exports.propsConductor2 = rc.createConductor({
         return {
             foo: 'bar',
             baz: 'qux',
-            blacklistedQueries: [ 'baz', 'qux' ]
+            blacklistedQueries: ['baz', 'qux']
         };
     },
-    handlers: [
-        [
-            validateQuery,
-            render
-        ]
-    ]
+    handlers: [[validateQuery, render]]
 });

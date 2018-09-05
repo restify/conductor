@@ -2,7 +2,6 @@
 
 var rc = require('../../../lib');
 
-
 // like any other framework, you can pass in an array
 // of functions.
 
@@ -15,7 +14,6 @@ module.exports = rc.createConductor({
             return next();
         },
         function render(req, res, next) {
-
             res.send(200, 'hello world: ' + req.name + '!');
             return next();
         }

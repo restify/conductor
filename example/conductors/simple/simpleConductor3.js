@@ -2,7 +2,6 @@
 
 var rc = require('../../../lib');
 
-
 // you can also pass in an array of arrays.
 // this becomes extremely useful when working
 // with inherited conductors.
@@ -25,9 +24,10 @@ module.exports = rc.createConductor({
         ],
         [
             function render(req, res, next) {
-
-                res.send(200, 'hello world: ' + req.name +
-                           ' ' + req.message + '!');
+                res.send(
+                    200,
+                    'hello world: ' + req.name + ' ' + req.message + '!'
+                );
                 return next();
             }
         ]

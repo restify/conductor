@@ -2,7 +2,6 @@
 
 var rc = require('../../../lib');
 
-
 // you can also create custom models that can do anything.
 // just implement a get() method, which gives you a callback on completion.
 
@@ -18,12 +17,9 @@ var asyncModel = rc.createModel({
     }
 });
 
-
-
-
 module.exports = rc.createConductor({
     name: 'modelConductor4',
-    models: [ asyncModel ],
+    models: [asyncModel],
     handlers: [
         [
             rc.handlers.buildModels(),

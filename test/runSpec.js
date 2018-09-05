@@ -37,15 +37,10 @@ describe('Restify Conductor run', function() {
         conductorA = createConductor(handlers);
     });
 
-
     it('should run the first handler block', function(done) {
-        runHandlers(
-            mockReq(conductorA),
-            {},
-            function() {
-                assert.ok(calledOnce);
-                done();
-            }
-        );
+        runHandlers(mockReq(conductorA), {}, function() {
+            assert.ok(calledOnce);
+            done();
+        });
     });
 });
