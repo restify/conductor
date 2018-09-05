@@ -15,15 +15,10 @@ module.exports = rc.createModel({
     name: 'posts',
     host: 'jsonplaceholder.typicode.com',
     url: '/posts',
-    qs: {
-        userId: 1
-    },
     before: function(req, res) {
         // if the user passed in something as a query param
         // to be hashed, used that instead!
-        if (req.query.userId) {
-            this.qs.userId = req.query.userId;
-        }
+        this.qs.userId = req.query.userId || 1;
     },
     isValid: function(data) {
         // validate the payload coming back.

@@ -161,7 +161,7 @@ describe('Integration tests using the demo app', function() {
                 // assert posts model
                 assert.isArray(data.posts);
                 _.forEach(data.posts, function(post) {
-                    assert.equal(post.userId, 2);
+                    assert.equal(post.userId, 1);
                     assert.isNumber(post.id);
                     assert.isString(post.title);
                     assert.isString(post.body);
