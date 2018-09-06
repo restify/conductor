@@ -93,11 +93,11 @@ var noHandlers = rc.createConductor({
 });
 
 var shardMap = {
-    'text': shardTextConductor,
-    'json': shardJsonConductor,
-    'nextLevelJson': nextLevelShardJsonConductor,
-    'nextLevelNotSameLevel': nextLevelNotSameLevel,
-    'noHandlers': noHandlers
+    text: shardTextConductor,
+    json: shardJsonConductor,
+    nextLevelJson: nextLevelShardJsonConductor,
+    nextLevelNotSameLevel: nextLevelNotSameLevel,
+    noHandlers: noHandlers
 };
 
 module.exports.shardText = shardTextConductor;
@@ -131,5 +131,4 @@ module.exports.shard = rc.createConductor({
             }
         ]
     }
-
 });

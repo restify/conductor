@@ -10,7 +10,6 @@
 
 'use strict';
 
-
 var rc = require('../lib');
 var bunyan = require('bunyan');
 var restify = require('restify');
@@ -35,7 +34,6 @@ var inheritanceConductor5 = require('./conductors/inheritance/inheritanceConduct
 var shardConductor = require('./conductors/sharding/shardConductor');
 // jscs:enable maximumLineLength
 
-
 // create a server
 var logger = bunyan.createLogger({
     name: 'demo-server',
@@ -48,17 +46,23 @@ var demoServer = restify.createServer({
 });
 
 // set up auditing, error handling
-demoServer.on('after', restify.auditLogger({
-    log: logger.child({ component: 'restify-audit' })
-}));
+demoServer.on(
+    'after',
+    restify.auditLogger({
+        log: logger.child({ component: 'restify-audit' })
+    })
+);
 
 // handle uncaught exceptions
 demoServer.on('uncaughtException', function(req, res, route, err) {
     err.domain = null;
-    req.log.error({
-        err: err,
-        stack: err.stack
-    }, 'Uncaught exception!');
+    req.log.error(
+        {
+            err: err,
+            stack: err.stack
+        },
+        'Uncaught exception!'
+    );
 });
 
 // set up server
@@ -96,9 +100,9 @@ rc.get('/shardText', shardConductor.shardText, demoServer);
 rc.get('/shardJson', shardConductor.shardJson, demoServer);
 
 // Object examples
-rc.get({path: '/object'}, simpleConductor, demoServer);
-rc.get({path: '/object1', flags: 'i'}, simpleConductor2, demoServer);
-rc.get({path: '/Object2'}, simpleConductor2, demoServer);
-rc.get({path: '/OBJECT3'}, simpleConductor2, demoServer);
+rc.get({ path: '/object' }, simpleConductor, demoServer);
+rc.get({ path: '/object1', flags: 'i' }, simpleConductor2, demoServer);
+rc.get({ path: '/Object2' }, simpleConductor2, demoServer);
+rc.get({ path: '/OBJECT3' }, simpleConductor2, demoServer);
 
 module.exports = demoServer;

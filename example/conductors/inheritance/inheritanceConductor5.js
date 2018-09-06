@@ -2,7 +2,6 @@
 
 var rc = require('../../../lib');
 
-
 // leaving empty arrays in your handlers is a bit silly though,
 // and really hard to plan ahead.
 // why not use numerical keys?
@@ -20,7 +19,6 @@ var parentConductor = rc.createConductor({
         ],
         30: [
             function render(req, res, next) {
-
                 // render
                 res.send(200, req.data);
                 return next();
@@ -28,7 +26,6 @@ var parentConductor = rc.createConductor({
         ]
     }
 });
-
 
 // we can use keys to random insert/append/prepend handlers in our stack.
 // numerical keys that are duplicated get appended to by child conductors.
@@ -44,7 +41,7 @@ var parentConductor = rc.createConductor({
 
 module.exports = rc.createConductor({
     name: 'inheritanceConductor4',
-    deps: [ parentConductor ],
+    deps: [parentConductor],
     handlers: {
         10: [
             function dataA(req, res, next) {
@@ -60,4 +57,3 @@ module.exports = rc.createConductor({
         ]
     }
 });
-

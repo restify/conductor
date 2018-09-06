@@ -1,11 +1,9 @@
 'use strict';
 
 var assert = require('chai').assert;
-var h      = require('../lib/helpers');
-
+var h = require('../lib/helpers');
 
 describe('Helpers', function() {
-
     it('should merge two objects of arrays', function() {
         var objOne = {
             0: [1, 2, 3],
@@ -43,25 +41,15 @@ describe('Helpers', function() {
     });
 
     it('should merge array of arrays', function() {
-        var arrOne = [
-            [1],
-            [2]
-        ];
-        var arrTwo = [
-            [3],
-            [4]
-        ];
+        var arrOne = [[1], [2]];
+        var arrTwo = [[3], [4]];
         var merged = h.mergeObjArrays(arrOne, arrTwo);
 
-        assert.deepEqual(merged, [
-            [1, 3],
-            [2, 4]
-        ]);
+        assert.deepEqual(merged, [[1, 3], [2, 4]]);
         // ensure no mutation has occurred
         assert.deepEqual(arrOne, arrOne);
         assert.deepEqual(arrTwo, arrTwo);
     });
-
 
     it('should sort keys of object', function() {
         var obj = {
@@ -89,9 +77,6 @@ describe('Helpers', function() {
             100: []
         };
         var sorted = h.sortNumericalKeys(obj);
-        assert.deepEqual(
-            sorted,
-            [10, 20, 30, 40, 50, 51, 53, 60, 65, 70, 100]
-        );
+        assert.deepEqual(sorted, [10, 20, 30, 40, 50, 51, 53, 60, 65, 70, 100]);
     });
 });

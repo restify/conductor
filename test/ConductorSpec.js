@@ -3,15 +3,13 @@
 
 'use strict';
 
-var _       = require('lodash');
-var assert  = require('assert');
-var rc      = require('../lib');
-var Model   = require('../lib/models/Model');
+var _ = require('lodash');
+var assert = require('assert');
+var rc = require('../lib');
+var Model = require('../lib/models/Model');
 var restify = require('restify');
 
-
 describe('Restify Conductor', function() {
-
     describe('route installation', function() {
         var server;
         var conductor;
@@ -25,8 +23,7 @@ describe('Restify Conductor', function() {
             });
         });
 
-        describe('with rc verbs', function () {
-
+        describe('with rc verbs', function() {
             it('should add get route', function() {
                 rc.get('/foo', conductor, server);
                 assert.equal(_.keys(server.routes).length, 1);
@@ -50,7 +47,7 @@ describe('Restify Conductor', function() {
             });
 
             it('should accept an object for the route', function() {
-                rc.get({path: '/path'}, conductor, server);
+                rc.get({ path: '/path' }, conductor, server);
                 assert.equal(_.keys(server.routes).length, 1);
             });
 
@@ -69,7 +66,6 @@ describe('Restify Conductor', function() {
         });
 
         describe('with createConductorHandler', function() {
-
             it('should add get route', function() {
                 server.get('/foo', rc.createConductorHandlers(conductor));
                 assert.equal(_.keys(server.routes).length, 1);
@@ -93,20 +89,21 @@ describe('Restify Conductor', function() {
             });
 
             it('should accept an object for the route', function() {
-                server.get({path: '/path'}, rc.createConductorHandlers(conductor));
+                server.get(
+                    { path: '/path' },
+                    rc.createConductorHandlers(conductor)
+                );
                 assert.equal(_.keys(server.routes).length, 1);
             });
         });
     });
 
     describe('constructor tests', function() {
-
         it('should throw if no options passed to constructor', function() {
             assert.throws(function() {
                 rc.createConductor();
             });
         });
-
 
         it('should throw if no name specified in constructor', function() {
             assert.throws(function() {
@@ -117,31 +114,28 @@ describe('Restify Conductor', function() {
             });
         });
 
-
-        it('should throw if a handler isn\'t a function in constructor',
-           function() {
+        it("should throw if a handler isn't a function in constructor", function() {
             assert.throws(function() {
                 rc.createConductor({
                     name: 'A',
-                    handlers: {5:[ [_.noop] ] }
+                    handlers: { 5: [[_.noop]] }
                 });
             }, 'throw an error with nested handlers');
         });
 
-
         it('should create internal props using passed in config', function() {
             var conductorA = rc.createConductor({
-                    name: 'A',
-                    props: function() {
-                        return {
-                            title: 'A',
-                            numbers: [1, 2, 3],
-                            fastProperties: {
-                                a: 'A'
-                            }
-                        };
-                    }
-                });
+                name: 'A',
+                props: function() {
+                    return {
+                        title: 'A',
+                        numbers: [1, 2, 3],
+                        fastProperties: {
+                            a: 'A'
+                        }
+                    };
+                }
+            });
 
             assert.deepEqual(conductorA.getProps('title'), 'A');
             assert.deepEqual(conductorA.getProps('numbers'), [1, 2, 3]);
@@ -150,7 +144,6 @@ describe('Restify Conductor', function() {
     });
 
     describe('handler tests', function() {
-
         function A(innerReq, innerRes, next) {
             next();
         }
@@ -166,12 +159,12 @@ describe('Restify Conductor', function() {
         it('should take an array of handlers', function() {
             var conductorA = rc.createConductor({
                 name: 'A',
-                handlers: [ A ]
+                handlers: [A]
             });
             var conductorB = rc.createConductor({
                 name: 'B',
-                deps: [ conductorA ],
-                handlers: [ B ]
+                deps: [conductorA],
+                handlers: [B]
             });
 
             var handlerStackA = conductorA.getDebugHandlerStack();
@@ -185,17 +178,12 @@ describe('Restify Conductor', function() {
         it('should take an array of array of handlers', function() {
             var conductorA = rc.createConductor({
                 name: 'A',
-                handlers: [
-                    [ A ],
-                    [ B ]
-                ]
+                handlers: [[A], [B]]
             });
             var conductorB = rc.createConductor({
                 name: 'B',
-                deps: [ conductorA ],
-                handlers: [
-                    [ C ]
-                ]
+                deps: [conductorA],
+                handlers: [[C]]
             });
 
             var handlerStackA = conductorA.getDebugHandlerStack();
@@ -212,21 +200,21 @@ describe('Restify Conductor', function() {
             var conductorA = rc.createConductor({
                 name: 'A',
                 handlers: {
-                    10: [ A ]
+                    10: [A]
                 }
             });
             var conductorB = rc.createConductor({
                 name: 'B',
-                deps: [ conductorA ],
+                deps: [conductorA],
                 handlers: {
-                    30: [ C ]
+                    30: [C]
                 }
             });
             var conductorC = rc.createConductor({
                 name: 'C',
-                deps: [ conductorB ],
+                deps: [conductorB],
                 handlers: {
-                    20: [ B ]
+                    20: [B]
                 }
             });
 
@@ -240,37 +228,37 @@ describe('Restify Conductor', function() {
             var conductorA = rc.createConductor({
                 name: 'A',
                 handlers: {
-                    10: [ A ]
+                    10: [A]
                 }
             });
             var conductorB = rc.createConductor({
                 name: 'B',
-                deps: [ conductorA ],
+                deps: [conductorA],
                 handlers: {
-                    30: [ C ]
+                    30: [C]
                 }
             });
             var conductorC = rc.createConductor({
                 name: 'C',
-                deps: [ conductorB ],
+                deps: [conductorB],
                 handlers: {
-                    20: [ B ]
+                    20: [B]
                 }
             });
 
-            assert.deepEqual(conductorA.getHandlers(10), [ A ]);
-            assert.deepEqual(conductorB.getHandlers(10), [ A ]);
-            assert.deepEqual(conductorB.getHandlers(30), [ C ]);
-            assert.deepEqual(conductorC.getHandlers(10), [ A ]);
-            assert.deepEqual(conductorC.getHandlers(30), [ C ]);
-            assert.deepEqual(conductorC.getHandlers(20), [ B ]);
+            assert.deepEqual(conductorA.getHandlers(10), [A]);
+            assert.deepEqual(conductorB.getHandlers(10), [A]);
+            assert.deepEqual(conductorB.getHandlers(30), [C]);
+            assert.deepEqual(conductorC.getHandlers(10), [A]);
+            assert.deepEqual(conductorC.getHandlers(30), [C]);
+            assert.deepEqual(conductorC.getHandlers(20), [B]);
         });
 
         it('should throw when retrieving handler blocks', function() {
             var conductorA = rc.createConductor({
                 name: 'A',
                 handlers: {
-                    10: [ A ]
+                    10: [A]
                 }
             });
 
@@ -287,28 +275,27 @@ describe('Restify Conductor', function() {
             var conductorA = rc.createConductor({
                 name: 'A',
                 handlers: {
-                    5: [ A ]
+                    5: [A]
                 }
             });
             var conductorB = rc.createConductor({
                 name: 'B',
-                deps: [ conductorA ],
+                deps: [conductorA],
                 handlers: {
-                    0: [ C ]
+                    0: [C]
                 }
             });
             var conductorC = rc.createConductor({
                 name: 'C',
-                deps: [ conductorB ],
+                deps: [conductorB],
                 handlers: {
-                    100: [ B ]
+                    100: [B]
                 }
             });
 
             assert.deepEqual(conductorC.getHandlerKeys(), [0, 5, 100]);
         });
     });
-
 
     describe('props and first class property tests', function() {
         it('should resolve properties on an conductor', function() {
@@ -318,7 +305,7 @@ describe('Restify Conductor', function() {
                     assert.deepEqual(inheritedProps, {});
                     return {
                         title: 'A',
-                        models: [ {modelA: 'A'} ],
+                        models: [{ modelA: 'A' }],
                         fastProperties: {
                             a: 'A'
                         }
@@ -329,7 +316,7 @@ describe('Restify Conductor', function() {
 
             assert.equal(conductorA.name, configA.name);
             assert.equal(conductorA.getProps('title'), 'A');
-            assert.deepEqual(conductorA.getProps('models'), [ { modelA: 'A' } ]);
+            assert.deepEqual(conductorA.getProps('models'), [{ modelA: 'A' }]);
         });
 
         it('should override props from parent', function() {
@@ -346,7 +333,7 @@ describe('Restify Conductor', function() {
             });
             var conductorB = rc.createConductor({
                 name: 'B',
-                deps: [ conductorA ],
+                deps: [conductorA],
                 props: function() {
                     return {
                         letters: {
@@ -375,7 +362,7 @@ describe('Restify Conductor', function() {
             });
             var conductorB = rc.createConductor({
                 name: 'B',
-                deps: [ conductorA ]
+                deps: [conductorA]
             });
 
             assert.deepEqual(conductorB.getProps('letters'), { a: 1 });
@@ -396,28 +383,39 @@ describe('Restify Conductor', function() {
             });
             var conductorB = rc.createConductor({
                 name: 'B',
-                deps: [ conductorA ],
-                extendProps: [ 'letters', 'numbers' ],
+                deps: [conductorA],
+                extendProps: ['letters', 'numbers'],
                 props: function(inheritedProps) {
                     assert.deepEqual(inheritedProps, conductorA.getProps());
-                    return _.merge({}, inheritedProps, {
-                        letters:{
-                            b: 2
+                    return _.merge(
+                        {},
+                        inheritedProps,
+                        {
+                            letters: {
+                                b: 2
+                            },
+                            numbers: [4, 5, 6]
                         },
-                        numbers: [4, 5, 6]
-                    },
-                    /* eslint-disable consistent-return */
-                    function mergeCustomizer(a, b) {
-                        if (_.isArray(a)) {
-                            return a.concat(b);
+                        /* eslint-disable consistent-return */
+                        function mergeCustomizer(a, b) {
+                            if (_.isArray(a)) {
+                                return a.concat(b);
+                            }
                         }
-                    });
+                    );
                     /* eslint-enable consistent-return */
                 }
             });
 
             assert.deepEqual(conductorB.getProps('letters'), { a: 1, b: 2 });
-            assert.deepEqual(conductorB.getProps('numbers'), [1, 2, 3, 4, 5, 6]);
+            assert.deepEqual(conductorB.getProps('numbers'), [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+            ]);
         });
 
         it('should not mutate parent props', function() {
@@ -433,12 +431,12 @@ describe('Restify Conductor', function() {
             });
             var conductorB = rc.createConductor({
                 name: 'B',
-                deps: [ conductorA ],
-                extendProps: [ 'letters', 'numbers' ],
+                deps: [conductorA],
+                extendProps: ['letters', 'numbers'],
                 props: function(inheritedProps) {
                     assert.deepEqual(inheritedProps, conductorA.getProps());
                     return _.merge(inheritedProps, {
-                        letters:{
+                        letters: {
                             b: 2
                         }
                     });
@@ -461,7 +459,6 @@ describe('Restify Conductor', function() {
     });
 
     describe('model tests', function() {
-
         it('should build models', function() {
             var conductorA = rc.createConductor({
                 name: 'A',
@@ -485,7 +482,7 @@ describe('Restify Conductor', function() {
             });
             var conductorB = rc.createConductor({
                 name: 'B',
-                deps: [ conductorA ],
+                deps: [conductorA],
                 models: {
                     a: [
                         function fooModel(innerReq, res) {
@@ -564,7 +561,7 @@ describe('Restify Conductor', function() {
             });
             var conductorB = rc.createConductor({
                 name: 'B',
-                deps: [ conductorA ],
+                deps: [conductorA],
                 models: {
                     a: [
                         function fooModel(innerReq, res) {
@@ -604,6 +601,5 @@ describe('Restify Conductor', function() {
             assert.equal(modelsB.length, 1);
             assert.equal(modelsB[0].name, 'timestamp');
         });
-
     });
 });

@@ -1,14 +1,13 @@
 'use strict';
 
-var rc             = require('../../../lib');
+var rc = require('../../../lib');
 var propsConductor = require('../props/propsConductor').propsConductor;
-
 
 // while inheriting, we can also append to the existing handler stack.
 
 module.exports = rc.createConductor({
     name: 'inheritanceConductor3',
-    deps: [ propsConductor ],
+    deps: [propsConductor],
     handlers: [
         [
             function postRender(req, res, next) {
@@ -21,4 +20,3 @@ module.exports = rc.createConductor({
         ]
     ]
 });
-

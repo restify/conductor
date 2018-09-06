@@ -1,10 +1,9 @@
 'use strict';
 
-var _       = require('lodash');
-var rc      = require('../../../lib');
-var ip      = require('../../models/ip');
-var posts   = require('../../models/posts');
-
+var _ = require('lodash');
+var rc = require('../../../lib');
+var ip = require('../../models/ip');
+var posts = require('../../models/posts');
 
 // now let's build an conductor that fetches
 // models from a remote data source.
@@ -17,7 +16,7 @@ module.exports = rc.createConductor({
         // means it is async. all models specified in the
         // key here must complete before we render.
         // these models are built in parallel!
-        basic: [ ip, posts ]
+        basic: [ip, posts]
     },
     handlers: [
         [
@@ -28,10 +27,14 @@ module.exports = rc.createConductor({
                 // put together a payload by looping through all the models,
                 // and creating a key/val pair of model names to their
                 // contents.
-                var out = _.reduce(allModels, function(acc, model) {
-                    acc[model.name] = model.data;
-                    return acc;
-                }, {});
+                var out = _.reduce(
+                    allModels,
+                    function(acc, model) {
+                        acc[model.name] = model.data;
+                        return acc;
+                    },
+                    {}
+                );
 
                 // render the model data
                 res.send(200, out);

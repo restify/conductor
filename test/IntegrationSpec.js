@@ -2,9 +2,9 @@
 
 'use strict';
 
-var chai       = require('chai');
-var _          = require('lodash');
-var restify    = require('restify-clients');
+var chai = require('chai');
+var _ = require('lodash');
+var restify = require('restify-clients');
 var demoServer = require('../example/demo');
 
 var assert = chai.assert;
@@ -15,13 +15,16 @@ var stringClient = restify.createStringClient({
     url: 'http://localhost:3003'
 });
 
-
-
 // star tests
 describe('Integration tests using the demo app', function() {
-
     before(function(done) {
         demoServer.listen(3003, done);
+    });
+
+    after(function(done) {
+        client.close();
+        stringClient.close();
+        demoServer.close(done);
     });
 
     describe('Simple handler chains', function() {
@@ -61,7 +64,12 @@ describe('Integration tests using the demo app', function() {
 
     describe('Props', function() {
         it('should return success due to ok query (props1)', function(done) {
-            stringClient.get('/props?search=hello', function(err, req, res, data) {
+            stringClient.get('/props?search=hello', function(
+                err,
+                req,
+                res,
+                data
+            ) {
                 assert.ifError(err);
                 assert.equal(data, 'searchQuery: hello');
                 done();
@@ -85,7 +93,6 @@ describe('Integration tests using the demo app', function() {
                 done();
             });
         });
-
 
         it('should return 400 due to invalid query (props2)', function(done) {
             client.get('/props2?search=baz', function(err, req, res, data) {
@@ -151,7 +158,12 @@ describe('Integration tests using the demo app', function() {
         it('should fetch two async models in series', function(done) {
             this.timeout(10000);
 
-            client.get('/model5?text=helloworld', function(err, req, res, data) {
+            client.get('/model5?text=helloworld', function(
+                err,
+                req,
+                res,
+                data
+            ) {
                 assert.ifError(err);
 
                 // assert ip model
@@ -173,7 +185,6 @@ describe('Integration tests using the demo app', function() {
     });
 
     describe('inheritance', function() {
-
         it('should inherit from propsConductor, return success due to ok query (inherit1)', function(done) {
             client.get('/inherit?search=hello', function(err, req, res, data) {
                 assert.ifError(err);
@@ -201,7 +212,12 @@ describe('Integration tests using the demo app', function() {
         });
 
         it('should return 400 due to invalid query (inherit2)', function(done) {
-            client.get('/inherit2?search=override', function(err, req, res, data) {
+            client.get('/inherit2?search=override', function(
+                err,
+                req,
+                res,
+                data
+            ) {
                 assert.ok(err);
                 assert.equal(res.statusCode, 400);
                 assert.equal(data.code, 'BadRequestError');
@@ -211,7 +227,12 @@ describe('Integration tests using the demo app', function() {
         });
 
         it('should work like inherit2 (inherit3)', function(done) {
-            client.get('/inherit2?search=override', function(err, req, res, data) {
+            client.get('/inherit2?search=override', function(
+                err,
+                req,
+                res,
+                data
+            ) {
                 assert.ok(err);
                 assert.equal(res.statusCode, 400);
                 assert.equal(data.code, 'BadRequestError');
@@ -275,8 +296,12 @@ describe('Integration tests using the demo app', function() {
         });
 
         it('should shard to next level into json response', function(done) {
-            client.get('/shard?type=nextLevelJson',
-                       function(err, req, res, data) {
+            client.get('/shard?type=nextLevelJson', function(
+                err,
+                req,
+                res,
+                data
+            ) {
                 assert.ifError(err);
                 assert.isObject(data);
                 assert.equal(data.name, 'json');
@@ -285,8 +310,12 @@ describe('Integration tests using the demo app', function() {
         });
 
         it('should shard to next level into json response', function(done) {
-            client.get('/shard?type=nextLevelNotSameLevel',
-                       function(err, req, res, data) {
+            client.get('/shard?type=nextLevelNotSameLevel', function(
+                err,
+                req,
+                res,
+                data
+            ) {
                 assert.ifError(err);
                 assert.isObject(data);
                 assert.equal(data.name, 'json');
@@ -295,8 +324,7 @@ describe('Integration tests using the demo app', function() {
         });
 
         it('should error as there are no handlers', function(done) {
-            client.get('/shard?type=noHandlers',
-                       function(err, req, res, data) {
+            client.get('/shard?type=noHandlers', function(err, req, res, data) {
                 assert.ok(err);
                 assert.isObject(data);
                 assert.equal(res.statusCode, 500);
@@ -338,6 +366,5 @@ describe('Integration tests using the demo app', function() {
                 done();
             });
         });
-
     });
 });

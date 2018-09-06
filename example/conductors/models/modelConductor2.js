@@ -1,11 +1,10 @@
 'use strict';
 
-var _              = require('lodash');
-var assert         = require('assert-plus');
-var rc            = require('../../../lib');
-var userAgent      = require('../../models/userAgent');
-var serverEnv      = require('../../models/serverEnv');
-
+var _ = require('lodash');
+var assert = require('assert-plus');
+var rc = require('../../../lib');
+var userAgent = require('../../models/userAgent');
+var serverEnv = require('../../models/serverEnv');
 
 // models are also a first class concept.
 // each conductor can specify a set of 'models',
@@ -14,7 +13,7 @@ var serverEnv      = require('../../models/serverEnv');
 module.exports = rc.createConductor({
     name: 'modelConductor2',
     models: {
-        basic: [ userAgent, serverEnv ]
+        basic: [userAgent, serverEnv]
     },
     handlers: [
         [
@@ -42,10 +41,14 @@ module.exports = rc.createConductor({
                 // put together a payload by looping through all the models,
                 // and creating a key/val pair of model names to their
                 // contents.
-                var out = _.reduce(allModels, function(acc, model) {
-                    acc[model.name] = model.data;
-                    return acc;
-                }, {});
+                var out = _.reduce(
+                    allModels,
+                    function(acc, model) {
+                        acc[model.name] = model.data;
+                        return acc;
+                    },
+                    {}
+                );
 
                 // render the model data
                 res.send(200, out);

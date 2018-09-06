@@ -2,7 +2,6 @@
 
 var rc = require('../../../lib');
 
-
 // an conductor that redirect. handler chain stops executing.
 
 module.exports = rc.createConductor({

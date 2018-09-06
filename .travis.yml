@@ -1,7 +1,6 @@
 language: node_js
 node_js:
-    - "0.10"
-    - "0.12"
-    - "4"
-    - "stable"
+    - "6"                    # Maintenance LTS release
+    - "lts/*"                # Active LTS release
+    - "node"                 # Latest stable release
 after_success: 'make report-coverage'
