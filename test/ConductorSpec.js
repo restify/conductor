@@ -23,8 +23,7 @@ describe('Restify Conductor', function() {
             });
         });
 
-        describe('with rc verbs', function () {
-
+        describe('with rc verbs', function() {
             it('should add get route', function() {
                 rc.get('/foo', conductor, server);
                 assert.equal(_.keys(server.routes).length, 1);
@@ -48,7 +47,7 @@ describe('Restify Conductor', function() {
             });
 
             it('should accept an object for the route', function() {
-                rc.get({path: '/path'}, conductor, server);
+                rc.get({ path: '/path' }, conductor, server);
                 assert.equal(_.keys(server.routes).length, 1);
             });
 
@@ -67,7 +66,6 @@ describe('Restify Conductor', function() {
         });
 
         describe('with createConductorHandler', function() {
-
             it('should add get route', function() {
                 server.get('/foo', rc.createConductorHandlers(conductor));
                 assert.equal(_.keys(server.routes).length, 1);
@@ -91,7 +89,10 @@ describe('Restify Conductor', function() {
             });
 
             it('should accept an object for the route', function() {
-                server.get({path: '/path'}, rc.createConductorHandlers(conductor));
+                server.get(
+                    { path: '/path' },
+                    rc.createConductorHandlers(conductor)
+                );
                 assert.equal(_.keys(server.routes).length, 1);
             });
         });

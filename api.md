@@ -26,69 +26,71 @@
     -   [Parameters][22]
 -   [createConductor][23]
     -   [Parameters][24]
--   [methodInstaller][25]
+-   [createConductorHandlers][25]
     -   [Parameters][26]
--   [getDefault][27]
--   [child][28]
-    -   [Parameters][29]
--   [addSerializers][30]
+-   [methodInstaller][27]
+    -   [Parameters][28]
+-   [getDefault][29]
+-   [child][30]
     -   [Parameters][31]
--   [Model][32]
+-   [addSerializers][32]
     -   [Parameters][33]
-    -   [props][34]
-    -   [data][35]
-    -   [errors][36]
-    -   [log][37]
-    -   [client][38]
-    -   [type][39]
-    -   [name][40]
-    -   [async][41]
--   [before][42]
-    -   [Parameters][43]
--   [after][44]
+-   [Model][34]
+    -   [Parameters][35]
+    -   [props][36]
+    -   [data][37]
+    -   [errors][38]
+    -   [log][39]
+    -   [client][40]
+    -   [type][41]
+    -   [name][42]
+    -   [async][43]
+-   [before][44]
     -   [Parameters][45]
--   [isValid][46]
+-   [after][46]
     -   [Parameters][47]
--   [fallback][48]
--   [get][49]
-    -   [Parameters][50]
+-   [isValid][48]
+    -   [Parameters][49]
+-   [fallback][50]
 -   [get][51]
     -   [Parameters][52]
--   [preConfigure][53]
+-   [get][53]
     -   [Parameters][54]
--   [postConfigure][55]
+-   [preConfigure][55]
     -   [Parameters][56]
--   [RestModel][57]
+-   [postConfigure][57]
     -   [Parameters][58]
-    -   [type][59]
-    -   [async][60]
-    -   [method][61]
-    -   [secure][62]
-    -   [host][63]
-    -   [port][64]
-    -   [baseUrl][65]
-    -   [url][66]
-    -   [qs][67]
-    -   [postBody][68]
-    -   [postType][69]
-    -   [headers][70]
-    -   [resourceType][71]
-    -   [rawResponseData][72]
-    -   [fallbackMode][73]
--   [getConductor][74]
-    -   [Parameters][75]
--   [getClient][76]
+-   [RestModel][59]
+    -   [Parameters][60]
+    -   [type][61]
+    -   [async][62]
+    -   [method][63]
+    -   [secure][64]
+    -   [host][65]
+    -   [port][66]
+    -   [baseUrl][67]
+    -   [url][68]
+    -   [qs][69]
+    -   [postBody][70]
+    -   [postType][71]
+    -   [headers][72]
+    -   [resourceType][73]
+    -   [rawResponseData][74]
+    -   [fallbackMode][75]
+-   [getConductor][76]
     -   [Parameters][77]
--   [getModels][78]
+-   [getClient][78]
     -   [Parameters][79]
--   [getReqTimerPrefix][80]
+-   [getModels][80]
     -   [Parameters][81]
--   [setReqTimerPrefix][82]
+-   [getReqTimerPrefix][82]
     -   [Parameters][83]
--   [setModel][84]
+-   [setReqTimerPrefix][84]
     -   [Parameters][85]
--   [shardConductor][86]
+-   [setModel][86]
     -   [Parameters][87]
+-   [shardConductor][88]
+    -   [Parameters][89]
 
 ## create
 
@@ -101,9 +103,9 @@ TODO: this is potentially expensive, need to investigate
 
 ### Parameters
 
--   `model` **[Object][88]** a restify model
+-   `model` **[Object][90]** a restify model
 
-Returns **[Object][88]** a restify JsonClient
+Returns **[Object][90]** a restify JsonClient
 
 ## Conductor
 
@@ -111,17 +113,17 @@ Class definition
 
 ### Parameters
 
--   `config` **[Object][88]** user configuration object.
-    -   `config.name` **[String][89]** a name for your conductor
-    -   `config.deps` **[Array][90]?** an array of dependencies to be mixed in
-    -   `config.props` **[Object][88]?** props to create for this conductor.
-    -   `config.handlers` **[Object][88]?** an object or array of handlers
+-   `config` **[Object][90]** user configuration object.
+    -   `config.name` **[String][91]** a name for your conductor
+    -   `config.deps` **[Array][92]?** an array of dependencies to be mixed in
+    -   `config.props` **[Object][90]?** props to create for this conductor.
+    -   `config.handlers` **[Object][90]?** an object or array of handlers
 
 ### name
 
 name of the conductor
 
-Type: [String][89]
+Type: [String][91]
 
 ## getHandlers
 
@@ -129,15 +131,15 @@ retrieves a handler block for a given key.
 
 ### Parameters
 
--   `key` **[String][89]** the key of the handler block
+-   `key` **[String][91]** the key of the handler block
 
-Returns **[Array][90]** an array of function handlers
+Returns **[Array][92]** an array of function handlers
 
 ## getHandlerKeys
 
 retrieves the sorted handler keys for the conductor.
 
-Returns **[Array][90]** an array of strings
+Returns **[Array][92]** an array of strings
 
 ## getProps
 
@@ -146,9 +148,9 @@ if no name passed in, return all props.
 
 ### Parameters
 
--   `name` **[String][89]?** optional name of the prop to retrieve.
+-   `name` **[String][91]?** optional name of the prop to retrieve.
 
-Returns **[Object][88]** the copy of the prop
+Returns **[Object][90]** the copy of the prop
 
 ## getProps
 
@@ -156,10 +158,10 @@ retrieve an immutable prop off the conductor object
 
 ### Parameters
 
--   `req` **[Object][88]** the request object
--   `propName` **[String][89]** the name of the prop to retrieve
+-   `req` **[Object][90]** the request object
+-   `propName` **[String][91]** the name of the prop to retrieve
 
-Returns **[Object][88]** a prop value
+Returns **[Object][90]** a prop value
 
 ## createModels
 
@@ -168,18 +170,18 @@ to create a new instance of a model. does not change any state.
 
 ### Parameters
 
--   `req` **[Object][88]** the request object
--   `res` **[Object][88]** the response object
--   `bucketName` **[String][89]** the name of the model bucket to create.
+-   `req` **[Object][90]** the request object
+-   `res` **[Object][90]** the response object
+-   `bucketName` **[String][91]** the name of the model bucket to create.
 
-Returns **[Array][90]** an array of models
+Returns **[Array][92]** an array of models
 
 ## getDebugHandlerStack
 
 returns a flattened list of handler stacks.
 for debug use only.
 
-Returns **[Array][90]** an array of function names and the index of their blocks
+Returns **[Array][92]** an array of function names and the index of their blocks
 
 ## buildModelsWrapper
 
@@ -187,15 +189,15 @@ a handler to build any models defined on the conductor.
 
 ### Parameters
 
--   `modelBucket` **[Array][90]** a key we can use to look up a bucket
+-   `modelBucket` **[Array][92]** a key we can use to look up a bucket
                                       of models defined on the conductor
--   `modelFetcher` **[Function][91]** function to run for fetching / creating
+-   `modelFetcher` **[Function][93]** function to run for fetching / creating
                                       models. The function should accept req
                                       as the first parameter, req as the
                                       second, a models array as the third, and
                                       a callback as the fourth.
 
-Returns **[undefined][92]** 
+Returns **[undefined][94]** 
 
 ## initWrapper
 
@@ -204,7 +206,7 @@ and response objects.
 
 ### Parameters
 
--   `conductor` **[Object][88]** an instance of restify conductor
+-   `conductor` **[Object][90]** an instance of restify conductor
 
 Returns **void** 
 
@@ -213,7 +215,7 @@ Returns **void**
 a handler to run the wrapped conductor handlers.
 no options at the moment.
 
-Returns **[undefined][92]** 
+Returns **[undefined][94]** 
 
 ## createConductor
 
@@ -221,9 +223,9 @@ wrapper function for creating conductors
 
 ### Parameters
 
--   `options` **[Object][88]** an options object
+-   `options` **[Object][90]** an options object
 
-Returns **[Conductor][93]** a Conductor instance
+Returns **[Conductor][95]** a Conductor instance
 
 ## createConductor
 
@@ -234,9 +236,19 @@ each new incoming request.
 
 ### Parameters
 
--   `options` **[Object][88]** an options object
+-   `options` **[Object][90]** an options object
 
-Returns **[Function][91]** 
+Returns **[Function][93]** 
+
+## createConductorHandlers
+
+Create a middleware chain that executes a specific conductor
+
+### Parameters
+
+-   `conductor` **[Object][90]** a Conductor instance
+
+Returns **[Array][92]&lt;[Function][93]>** 
 
 ## methodInstaller
 
@@ -244,18 +256,18 @@ programatically create wrapperis for Restify's server[method]
 
 ### Parameters
 
--   `opts` **([String][89] \| [Object][88])** the url of REST resource or
+-   `opts` **([String][91] \| [Object][90])** the url of REST resource or
                                      opts to pass to Restify
--   `conductor` **[Conductor][93]** a conductor instance
--   `server` **[Object][88]** a restify server
+-   `conductor` **[Conductor][95]** a conductor instance
+-   `server` **[Object][90]** a restify server
 
-Returns **[undefined][92]** 
+Returns **[undefined][94]** 
 
 ## getDefault
 
 retrieves default restify-conductor logger
 
-Returns **[Object][88]** bunyan logger
+Returns **[Object][90]** bunyan logger
 
 ## child
 
@@ -263,9 +275,9 @@ creates a child logger from default restify-conductor logger
 
 ### Parameters
 
--   `name` **[String][89]** name of child logger
+-   `name` **[String][91]** name of child logger
 
-Returns **[Object][88]** bunyan logger
+Returns **[Object][90]** bunyan logger
 
 ## addSerializers
 
@@ -273,7 +285,7 @@ add the restify-conductor specific serializers
 
 ### Parameters
 
--   `log` **[Object][88]** bunyan instance
+-   `log` **[Object][90]** bunyan instance
 
 Returns **void** 
 
@@ -284,58 +296,58 @@ abstraction for restify-conductor models.
 
 ### Parameters
 
--   `config` **[Object][88]** model configuration object
+-   `config` **[Object][90]** model configuration object
 
 ### props
 
 arbitrary model props
 
-Type: [Object][88]
+Type: [Object][90]
 
 ### data
 
 the model data
 
-Type: [Object][88]
+Type: [Object][90]
 
 ### errors
 
 collected errors that may have occurred
 through the lifecycle methods.
 
-Type: [Array][90]
+Type: [Array][92]
 
 ### log
 
 a bunyan instance for loggin
 
-Type: [Object][88]
+Type: [Object][90]
 
 ### client
 
 a remote client that implements a get() method
 for fetching remote data
 
-Type: [Object][88]
+Type: [Object][90]
 
 ### type
 
 model type for debugging purposes
 
-Type: [String][89]
+Type: [String][91]
 
 ### name
 
 model name
 
-Type: [String][89]
+Type: [String][91]
 
 ### async
 
 flag used to help debug.
 true if the model is async.
 
-Type: [Boolean][94]
+Type: [Boolean][96]
 
 ## before
 
@@ -345,10 +357,10 @@ before requesting it.
 
 ### Parameters
 
--   `req` **[Object][88]** the request object
--   `res` **[Object][88]** the response object
+-   `req` **[Object][90]** the request object
+-   `res` **[Object][90]** the response object
 
-Returns **[undefined][92]** 
+Returns **[undefined][94]** 
 
 ## after
 
@@ -358,10 +370,10 @@ after getting a return value.
 
 ### Parameters
 
--   `req` **[Object][88]** the request object
--   `res` **[Object][88]** the response object
+-   `req` **[Object][90]** the request object
+-   `res` **[Object][90]** the response object
 
-Returns **[undefined][92]** 
+Returns **[undefined][94]** 
 
 ## isValid
 
@@ -369,16 +381,16 @@ lifecycle method for validating returned data.
 
 ### Parameters
 
--   `data` **[Object][88]** the data to validate
+-   `data` **[Object][90]** the data to validate
 
-Returns **[Boolean][94]** 
+Returns **[Boolean][96]** 
 
 ## fallback
 
 default noop for all models.
 gives users a hook to handle validation errors.
 
-Returns **[Object][88]** 
+Returns **[Object][90]** 
 
 ## get
 
@@ -386,9 +398,9 @@ public method to invoke the get of the model data.
 
 ### Parameters
 
--   `cb` **[Function][91]** callback function
+-   `cb` **[Function][93]** callback function
 
-Returns **[undefined][92]** 
+Returns **[undefined][94]** 
 
 ## get
 
@@ -396,9 +408,9 @@ retrieves the remote resource.
 
 ### Parameters
 
--   `callback` **[Function][91]** a callback function to invoke when complete
+-   `callback` **[Function][93]** a callback function to invoke when complete
 
-Returns **[Object][88]** the parsed JSON response
+Returns **[Object][90]** the parsed JSON response
 
 ## preConfigure
 
@@ -406,11 +418,11 @@ public method to invoke the before chain of lifecycle events.
 
 ### Parameters
 
--   `req` **[Object][88]** the request object
--   `res` **[Object][88]** the response object
--   `options` **[Object][88]** an options object
+-   `req` **[Object][90]** the request object
+-   `res` **[Object][90]** the response object
+-   `options` **[Object][90]** an options object
 
-Returns **[undefined][92]** 
+Returns **[undefined][94]** 
 
 ## postConfigure
 
@@ -418,10 +430,10 @@ public method to invoke the after chain of lifecycle events.
 
 ### Parameters
 
--   `req` **[Object][88]** the request object
--   `res` **[Object][88]** the response object
+-   `req` **[Object][90]** the request object
+-   `res` **[Object][90]** the response object
 
-Returns **[undefined][92]** 
+Returns **[undefined][94]** 
 
 ## RestModel
 
@@ -430,103 +442,103 @@ abstraction for restify-conductor models.
 
 ### Parameters
 
--   `config` **[Object][88]** model configuration object
+-   `config` **[Object][90]** model configuration object
 
 ### type
 
 model type for debugging purposes
 
-Type: [String][89]
+Type: [String][91]
 
 ### async
 
 flag used to help debug.
 true if the model is async.
 
-Type: [Boolean][94]
+Type: [Boolean][96]
 
 ### method
 
 the type of http request. defaults to GET.
 
-Type: [String][89]
+Type: [String][91]
 
 ### secure
 
 whether or not the request should be made over https.
 
-Type: [Boolean][94]
+Type: [Boolean][96]
 
 ### host
 
 the hostname for the request
 
-Type: [String][89]
+Type: [String][91]
 
 ### port
 
 port number for remote host
 
-Type: [Number][95]
+Type: [Number][97]
 
 ### baseUrl
 
 the base url of the request:
-[http://{hostname}/{baseurl}][96]
+[http://{hostname}/{baseurl}][98]
 
-Type: [String][89]
+Type: [String][91]
 
 ### url
 
 the specific url of the request:
-[http://{hostname}/{baseurl}/{url}][97]
+[http://{hostname}/{baseurl}/{url}][99]
 
-Type: [String][89]
+Type: [String][91]
 
 ### qs
 
 a query string object
 
-Type: [Object][88]
+Type: [Object][90]
 
 ### postBody
 
 a post body object
 
-Type: [Object][88]
+Type: [Object][90]
 
 ### postType
 
 if a post request, the post type.
 defafult is json, can also be 'form'.
 
-Type: [String][89]
+Type: [String][91]
 
 ### headers
 
 specific headers set for this model
 
-Type: [Object][88]
+Type: [Object][90]
 
 ### resourceType
 
 the format of the returned payload.
 defaults to JSON, but can be XML or other.
 
-Type: [String][89]
+Type: [String][91]
 
 ### rawResponseData
 
 some cherry picked debug about the external
 resource call.
 
-Type: [Object][88]
+Type: [Object][90]
 
 ### fallbackMode
 
 whether or not model is operating in fallback mode.
 
-Type: [Boolean][94]
+Type: [Boolean][96]
 
 ## getConductor
 
@@ -534,9 +546,9 @@ returns the conductor for a given request.
 
 ### Parameters
 
--   `req` **[Object][88]** the request object
+-   `req` **[Object][90]** the request object
 
-Returns **[undefined][92]** 
+Returns **[undefined][94]** 
 
 ## getClient
 
@@ -545,10 +557,10 @@ otherwise, creates one.
 
 ### Parameters
 
--   `req` **[Object][88]** the request object
--   `model` **[Object][88]** a restify model
+-   `req` **[Object][90]** the request object
+-   `model` **[Object][90]** a restify model
 
-Returns **[Object][88]** a restify JSON client
+Returns **[Object][90]** a restify JSON client
 
 ## getModels
 
@@ -556,10 +568,10 @@ gets all the saved models off the request
 
 ### Parameters
 
--   `req` **[Object][88]** the request object
--   `modelName` **[String][89]?** name of the model to retrieve. returns all models if not specified.
+-   `req` **[Object][90]** the request object
+-   `modelName` **[String][91]?** name of the model to retrieve. returns all models if not specified.
 
-Returns **([Object][88] \| [Array][90])** returns an array of models, or just one model.
+Returns **([Object][90] \| [Array][92])** returns an array of models, or just one model.
 
 ## getReqTimerPrefix
 
@@ -568,9 +580,9 @@ useful for using it to prefix other request timers.
 
 ### Parameters
 
--   `req` **[Object][88]** the request object
+-   `req` **[Object][90]** the request object
 
-Returns **[String][89]** 
+Returns **[String][91]** 
 
 ## setReqTimerPrefix
 
@@ -578,10 +590,10 @@ sets the current timer name prefix.
 
 ### Parameters
 
--   `req` **[Object][88]** the request object
--   `prefix` **[String][89]** the timer name prefix
+-   `req` **[Object][90]** the request object
+-   `prefix` **[String][91]** the timer name prefix
 
-Returns **[undefined][92]** 
+Returns **[undefined][94]** 
 
 ## setModel
 
@@ -589,10 +601,10 @@ saves a model onto the request
 
 ### Parameters
 
--   `req` **[Object][88]** the request object
--   `model` **[Object][88]** an instance of a Model or RestModel.
+-   `req` **[Object][90]** the request object
+-   `model` **[Object][90]** an instance of a Model or RestModel.
 
-Returns **[undefined][92]** 
+Returns **[undefined][94]** 
 
 ## shardConductor
 
@@ -600,10 +612,10 @@ replace an conductor midstream with a .createAction
 
 ### Parameters
 
--   `req` **[Object][88]** the request object
--   `newConductor` **[Object][88]** a Conductor
+-   `req` **[Object][90]** the request object
+-   `newConductor` **[Object][90]** a Conductor
 
-Returns **[undefined][92]** 
+Returns **[undefined][94]** 
 
 [1]: #create
 
@@ -653,148 +665,152 @@ Returns **[undefined][92]**
 
 [24]: #parameters-9
 
-[25]: #methodinstaller
+[25]: #createconductorhandlers
 
 [26]: #parameters-10
 
-[27]: #getdefault
+[27]: #methodinstaller
 
-[28]: #child
+[28]: #parameters-11
 
-[29]: #parameters-11
+[29]: #getdefault
 
-[30]: #addserializers
+[30]: #child
 
 [31]: #parameters-12
 
-[32]: #model
+[32]: #addserializers
 
 [33]: #parameters-13
 
-[34]: #props
+[34]: #model
 
-[35]: #data
+[35]: #parameters-14
 
-[36]: #errors
+[36]: #props
 
-[37]: #log
+[37]: #data
 
-[38]: #client
+[38]: #errors
 
-[39]: #type
+[39]: #log
 
-[40]: #name-1
+[40]: #client
 
-[41]: #async
+[41]: #type
 
-[42]: #before
+[42]: #name-1
 
-[43]: #parameters-14
+[43]: #async
 
-[44]: #after
+[44]: #before
 
 [45]: #parameters-15
 
-[46]: #isvalid
+[46]: #after
 
 [47]: #parameters-16
 
-[48]: #fallback
+[48]: #isvalid
 
-[49]: #get
+[49]: #parameters-17
 
-[50]: #parameters-17
+[50]: #fallback
 
-[51]: #get-1
+[51]: #get
 
 [52]: #parameters-18
 
-[53]: #preconfigure
+[53]: #get-1
 
 [54]: #parameters-19
 
-[55]: #postconfigure
+[55]: #preconfigure
 
 [56]: #parameters-20
 
-[57]: #restmodel
+[57]: #postconfigure
 
 [58]: #parameters-21
 
-[59]: #type-1
+[59]: #restmodel
 
-[60]: #async-1
+[60]: #parameters-22
 
-[61]: #method
+[61]: #type-1
 
-[62]: #secure
+[62]: #async-1
 
-[63]: #host
+[63]: #method
 
-[64]: #port
+[64]: #secure
 
-[65]: #baseurl
+[65]: #host
 
-[66]: #url
+[66]: #port
 
-[67]: #qs
+[67]: #baseurl
 
-[68]: #postbody
+[68]: #url
 
-[69]: #posttype
+[69]: #qs
 
-[70]: #headers
+[70]: #postbody
 
-[71]: #resourcetype
+[71]: #posttype
 
-[72]: #rawresponsedata
+[72]: #headers
 
-[73]: #fallbackmode
+[73]: #resourcetype
 
-[74]: #getconductor
+[74]: #rawresponsedata
 
-[75]: #parameters-22
+[75]: #fallbackmode
 
-[76]: #getclient
+[76]: #getconductor
 
 [77]: #parameters-23
 
-[78]: #getmodels
+[78]: #getclient
 
 [79]: #parameters-24
 
-[80]: #getreqtimerprefix
+[80]: #getmodels
 
 [81]: #parameters-25
 
-[82]: #setreqtimerprefix
+[82]: #getreqtimerprefix
 
 [83]: #parameters-26
 
-[84]: #setmodel
+[84]: #setreqtimerprefix
 
 [85]: #parameters-27
 
-[86]: #shardconductor
+[86]: #setmodel
 
 [87]: #parameters-28
 
-[88]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
+[88]: #shardconductor
 
-[89]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+[89]: #parameters-29
 
-[90]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
+[90]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
 
-[91]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function
+[91]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
 
-[92]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined
+[92]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
 
-[93]: #conductor
+[93]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function
 
-[94]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
+[94]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined
 
-[95]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
+[95]: #conductor
 
-[96]: http://{hostname}/{baseurl}
+[96]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
 
-[97]: http://{hostname}/{baseurl}/{url}
+[97]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
+
+[98]: http://{hostname}/{baseurl}
+
+[99]: http://{hostname}/{baseurl}/{url}
