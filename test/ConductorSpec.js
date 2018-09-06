@@ -387,7 +387,7 @@ describe('Restify Conductor', function() {
                 extendProps: ['letters', 'numbers'],
                 props: function(inheritedProps) {
                     assert.deepEqual(inheritedProps, conductorA.getProps());
-                    return _.merge(
+                    return _.mergeWith(
                         {},
                         inheritedProps,
                         {
