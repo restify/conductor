@@ -367,4 +367,19 @@ describe('Integration tests using the demo app', function() {
             });
         });
     });
+
+    describe('conductor handler chains', function() {
+        it('should support conductor handler chain', function(done) {
+            stringClient.get('/simpleConductorHandlers', function(
+                err,
+                req,
+                res,
+                data
+            ) {
+                assert.ifError(err);
+                assert.equal(data, 'hello world!');
+                done();
+            });
+        });
+    });
 });
