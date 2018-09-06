@@ -32,6 +32,7 @@ var inheritanceConductor3 = require('./conductors/inheritance/inheritanceConduct
 var inheritanceConductor4 = require('./conductors/inheritance/inheritanceConductor4');
 var inheritanceConductor5 = require('./conductors/inheritance/inheritanceConductor5');
 var shardConductor = require('./conductors/sharding/shardConductor');
+var simpleConductorHandlers = require('./conductors/handlerConductor');
 // jscs:enable maximumLineLength
 
 // create a server
@@ -104,5 +105,7 @@ rc.get({ path: '/object' }, simpleConductor, demoServer);
 rc.get({ path: '/object1', flags: 'i' }, simpleConductor2, demoServer);
 rc.get({ path: '/Object2' }, simpleConductor2, demoServer);
 rc.get({ path: '/OBJECT3' }, simpleConductor2, demoServer);
+
+demoServer.get('/simpleConductorHandlers', simpleConductorHandlers);
 
 module.exports = demoServer;
