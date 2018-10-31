@@ -1,3 +1,12 @@
+<a name="2.0.1"></a>
+### 2.0.1 (2018-10-30)
+
+
+#### Bug Fixes
+
+* support loggers that don't implement `addSerializers` (such as pino) (#128) ([f9061e4d](https://github.com/restify/conductor/commit/f9061e4d))
+
+
 <a name="2.0.0"></a>
 ## 2.0.0 (2018-10-12)
 
