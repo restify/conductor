@@ -1,3 +1,12 @@
+<a name="2.0.2"></a>
+### 2.0.2 (2018-12-06)
+
+
+#### Bug Fixes
+
+* remove model failure logging (#129) ([fbfa9cb5](https://github.com/restify/conductor/commit/fbfa9cb5))
+
+
 <a name="2.0.1"></a>
 ### 2.0.1 (2018-10-30)
 
