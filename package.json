@@ -1,6 +1,6 @@
 {
   "name": "restify-conductor",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "main": "lib/index.js",
   "description": "an abstraction framework for building composable endpoints",
   "homepage": "https://github.com/restify/conductor",
