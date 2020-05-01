@@ -26,7 +26,9 @@
     "restify-conductor"
   ],
   "scripts": {
-    "test": "make test"
+    "test": "make test",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "devDependencies": {
     "chai": "^4.1.2",
@@ -53,6 +55,8 @@
     "restify-errors": "^6.1.1",
     "toposort-class": "^0.3.1",
     "urijs": "^1.17.0",
-    "vasync": "^1.6.3"
-  }
+    "vasync": "^1.6.3",
+    "snyk": "^1.316.1"
+  },
+  "snyk": true
 }
